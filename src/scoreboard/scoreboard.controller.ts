@@ -17,6 +17,11 @@ export class ScoreController {
     const result = await this.scoreService.getResults();
     return result;
   }
+  @Get('current')
+  async getCurrent() {
+    const current = await this.scoreService.getCurrent();
+    return current;
+  }
   @Post()
   async createMatch(@Body() body) {
     await this.scoreService.createMatch(body.leftTeamName, body.rightTeamName);
@@ -30,8 +35,8 @@ export class ScoreController {
     await this.scoreService.updateScore(id, body.score);
   }
   @Put('match/:id')
-  async updateCurrent(@Param('id') id: number) {
-    await this.scoreService.updateCurrent(id);
+  async finishCurrent(@Param('id') id: number) {
+    await this.scoreService.finishCurrent(id);
   }
   @Delete(':id')
   async deleteMatch(@Param('id') id: number) {

@@ -14,8 +14,19 @@ export class ScoreService {
   ) {}
 
   async getResults() {
-    const result = await this.matchRepository.find({});
+    const result = await this.matchRepository.find(
+      { current: false },
+      { populate: ['leftTeam', 'rightTeam'] },
+    );
     return result;
+  }
+
+  async getCurrent() {
+    const match = await this.matchRepository.findOne(
+      { current: true },
+      { populate: ['leftTeam', 'rightTeam'] },
+    );
+    return match;
   }
 
   async createMatch(leftTeamName: string, rightTeamName: string) {
@@ -49,13 +60,14 @@ export class ScoreService {
     await this.teamRepository.persistAndFlush(team);
   }
 
-  async updateCurrent(matchId: number) {
+  async finishCurrent(matchId: number) {
     const match = await this.matchRepository.findOne({ id: matchId });
     match.current = false;
     await this.matchRepository.persistAndFlush(match);
   }
 
   async deleteMatch(matchId: number) {
-    await this.matchRepository.nativeDelete({ id: matchId });
+    const match = await this.matchRepository.findOne({ id: matchId });
+    await this.matchRepository.removeAndFlush(match);
   }
 }

@@ -1,4 +1,10 @@
-import { Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Cascade,
+  Entity,
+  OneToOne,
+  PrimaryKey,
+  Property,
+} from '@mikro-orm/core';
 import { TeamEntity } from './team.entity';
 
 @Entity({ tableName: 'match' })
@@ -7,9 +13,9 @@ export class MatchEntity {
   id: number;
   @Property()
   period: number;
-  @OneToOne(() => TeamEntity)
+  @OneToOne({ entity: () => TeamEntity, cascade: [Cascade.REMOVE] })
   leftTeam: TeamEntity;
-  @OneToOne(() => TeamEntity)
+  @OneToOne({ entity: () => TeamEntity, cascade: [Cascade.REMOVE] })
   rightTeam: TeamEntity;
   @Property()
   date: Date = new Date();
