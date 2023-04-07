@@ -13,7 +13,7 @@ export class ScoreService {
     private teamRepository: EntityRepository<TeamEntity>,
   ) {}
 
-  async getResults() {
+  async getSummary() {
     const result = await this.matchRepository.find(
       { current: false },
       { populate: ['leftTeam', 'rightTeam'] },

@@ -13,8 +13,8 @@ import { ScoreService } from './scoreboard.service';
 export class ScoreController {
   constructor(private scoreService: ScoreService) {}
   @Get()
-  async getResults() {
-    const result = await this.scoreService.getResults();
+  async getSummary() {
+    const result = await this.scoreService.getSummary();
     return result;
   }
   @Get('current')
